@@ -1,6 +1,7 @@
 from django.urls import path 
 # from watchlist_app.api.views import movie_list, movie_datails #fuction base url
-from watchlist_app.api.views import StreamListAV, StreamDetailAV, WatchlistAV, WatchDetailAV, ReviewList, ReviewDetail
+from watchlist_app.api.views import (StreamListAV, StreamDetailAV, WatchlistAV,
+                                      WatchDetailAV, ReviewList, ReviewDetail)
 
 urlpatterns = [
     path('list/', WatchlistAV.as_view(), name='movie-list'),
