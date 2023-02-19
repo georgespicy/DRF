@@ -22,7 +22,7 @@ urlpatterns = [
     # path('review/<int:pk>/',  ReviewDetail.as_view(), name='review_Detail'),
 
     path('<int:pk>/review-create', ReviewCreate.as_view(), name='review-list'),
-    path('<int:pk>/reviews', ReviewList.as_view(), name='review-list'),
+    path('<int:pk>/reviews/', ReviewList.as_view(), name='review-list'),
     path('review/<int:pk>', ReviewDetail.as_view(), name='review-detail'),
 
     # path('list/', movie_list, name="movie_list"),
