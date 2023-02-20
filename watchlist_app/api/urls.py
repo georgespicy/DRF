@@ -11,7 +11,7 @@ router.register('stream', StreamList, basename='streamlist')
 
 urlpatterns = [
     path('list/', WatchlistAV.as_view(), name='movie-list'),
-    path('<int:pk>', WatchDetailAV.as_view(), name='movie-detail'),
+    path('<int:pk>/', WatchDetailAV.as_view(), name='movie-detail'),
 
     path('', include(router.urls)),
 

@@ -38,7 +38,7 @@ class WatchDetailAV(APIView):
 
 class WatchlistAV(APIView):
 
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminOrReadOnly]
     
     def get(self, request):
         movies = WatchList.objects.all()
@@ -57,7 +57,7 @@ class WatchlistAV(APIView):
 class StreamList(viewsets.ModelViewSet):
     queryset = StreamPlatform.objects.all()
     serializer_class = StreamPlatformSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminOrReadOnly]
 
 
 class ReviewCreate(generics.CreateAPIView):
