@@ -8,12 +8,14 @@ from watchlist_app.api.serializers import WatchListSerializer, StreamPlatformSer
 from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
-from .permissions import ReviewUserOrReadOnly
+from .permissions import IsReviewUserOrReadOnly, IsAdminOrReadOnly
 # from rest_framework import mixins
 from rest_framework import generics
 
 
 class WatchDetailAV(APIView):
+
+    permission_classes = [IsAdminOrReadOnly]
 
     def get(self, request, pk):
         movie = WatchList.objects.get(pk=pk)
@@ -35,6 +37,8 @@ class WatchDetailAV(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 class WatchlistAV(APIView):
+
+    permission_classes = [IsAuthenticated]
     
     def get(self, request):
         movies = WatchList.objects.all()
@@ -53,9 +57,12 @@ class WatchlistAV(APIView):
 class StreamList(viewsets.ModelViewSet):
     queryset = StreamPlatform.objects.all()
     serializer_class = StreamPlatformSerializer
+    permission_classes = [IsAuthenticated]
+
 
 class ReviewCreate(generics.CreateAPIView):
     serializer_class = ReviewSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         return Review.objects.all()
@@ -83,7 +90,7 @@ class ReviewCreate(generics.CreateAPIView):
 class ReviewList(generics.ListAPIView):
     # queryset = Review.objects.all()
     serializer_class = ReviewSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         pk = self.kwargs['pk']
@@ -92,7 +99,7 @@ class ReviewList(generics.ListAPIView):
 class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
-    permission_classes = [ReviewUserOrReadOnly]
+    permission_classes = [IsReviewUserOrReadOnly]
 
 
 
