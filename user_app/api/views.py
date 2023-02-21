@@ -7,7 +7,6 @@ from rest_framework import status
 # from rest_framework_simplejwt.tokens import RefreshToken
 
 
-
 @api_view(['POST',])
 def logout_view(request):
 
