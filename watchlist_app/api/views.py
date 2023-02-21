@@ -11,7 +11,7 @@ from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnl
 from .permissions import IsReviewUserOrReadOnly, IsAdminOrReadOnly
 # from rest_framework import mixins
 from rest_framework import generics
-from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
+from rest_framework.throttling import UserRateThrottle, AnonRateThrottle, ScopedRateThrottle
 from watchlist_app.api.throttling import ReviewCreateThrottle, ReviewDetailThrottle
 
 
@@ -23,12 +23,14 @@ class WatchDetailAV(APIView):
     def get(self, request, pk):
         movie = WatchList.objects.get(pk=pk)
         serializer = WatchListSerializer(movie)
+        throttle_scope = 'get-movie' 
         return Response(serializer.data)
     
     def post(self, request, pk):
         movie = WatchList.objects.get(pk=pk)
         serializer = WatchListSerializer(movie, data=request.data)
         if serializer.is_valid():
+            throttle_scope = 'post-movie' 
             serializer.save()
             return Response(serializer.data)
         else:

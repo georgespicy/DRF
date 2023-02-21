@@ -149,7 +149,9 @@ REST_FRAMEWORK = {
         'anon': '5/day',
         'user': '10/day',
         'review-create': '5/day',
-        'review-detail': '3/day'
+        'review-detail': '3/day',
+        'get-movie': '5/day',
+        'post-movie': '5/day',
     }
 }
 
