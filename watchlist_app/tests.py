@@ -24,3 +24,9 @@ class StreamPlatformTest(APITestCase):
 
         response = self.client.post(reverse('streamlist-list'), data)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_streamplatform_list(self):
+        response = self.client.get(reverse('streamlist-list'))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    
