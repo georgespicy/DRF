@@ -133,7 +133,6 @@ REST_FRAMEWORK = {
     #     'rest_framework.permissions.IsAuthenticated',
     # ],
 
-
     'DEFAULT_AUTHENTICATION_CLASSES': [
         # 'rest_framework_simplejwt.authentication.JWTAuthentication',
         # 'rest_framework.authentication.BasicAuthentication',
@@ -150,9 +149,13 @@ REST_FRAMEWORK = {
         'user': '10/day',
         'review-create': '5/day',
         'review-detail': '3/day',
-        'get-movie': '5/day',
-        'post-movie': '5/day',
-    }
+        # 'get-movie': '1/day',
+        # 'post-movie': '1/day'
+    },
+
+    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    # 'PAGE_SIZE': 5,
+
 }
 
 

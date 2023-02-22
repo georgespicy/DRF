@@ -13,24 +13,23 @@ from .permissions import IsReviewUserOrReadOnly, IsAdminOrReadOnly
 from rest_framework import generics
 from rest_framework.throttling import UserRateThrottle, AnonRateThrottle, ScopedRateThrottle
 from watchlist_app.api.throttling import ReviewCreateThrottle, ReviewDetailThrottle
-
+from watchlist_app.api.pagination import WatchListPagination
 
 
 class WatchDetailAV(APIView):
 
     permission_classes = [IsAdminOrReadOnly]
 
+
     def get(self, request, pk):
         movie = WatchList.objects.get(pk=pk)
         serializer = WatchListSerializer(movie)
-        throttle_scope = 'get-movie' 
         return Response(serializer.data)
     
     def post(self, request, pk):
         movie = WatchList.objects.get(pk=pk)
         serializer = WatchListSerializer(movie, data=request.data)
         if serializer.is_valid():
-            throttle_scope = 'post-movie' 
             serializer.save()
             return Response(serializer.data)
         else:
@@ -46,11 +45,15 @@ class WatchlistAV(APIView):
     permission_classes = [IsAdminOrReadOnly]
     
     def get(self, request):
+        # throttle_classes = [ScopedRateThrottle]
+        # throttle_scope = 'post-movie'
         movies = WatchList.objects.all()
         serializer = WatchListSerializer(movies, many=True)
         return Response(serializer.data)
     
     def post(self, request):
+        # throttle_classes = [ScopedRateThrottle]
+        # throttle_scope = 'get-movie' 
         serializer = WatchListSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -98,6 +101,7 @@ class ReviewList(generics.ListAPIView):
     serializer_class = ReviewSerializer
     permission_classes = [IsAuthenticated]
     throttle_classes = [UserRateThrottle, AnonRateThrottle]
+    pagination_class = WatchListPagination
 
     def get_queryset(self):
         pk = self.kwargs['pk']
