@@ -8,11 +8,19 @@ from rest_framework.authtoken.models import Token
 from watchlist_app.api import serializers
 from watchlist_app import models
 
-class StreamPlatformTestCase(APITestCase):
+class StreamPlatformTest(APITestCase):
 
     def setUp(self):
-        self.user = User.objects.create_user(username="example", password="Password@123")
+        self.user = User.objects.create_user(username='testcase', password='testcase')
         self.token = Token.objects.get(user__username=self.user)
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token.key)
+        self.client.credentials(HTTP_AUTHORIZATION='Token' + self.token.key)
 
-        self.stream = models.StreamPlatform.objects.create(name="Netflix", about="#1 Platform", website="https://www.netflix.com")
+    def test_streamplatform_create(self):
+        data = {
+            "name" : "netflix",
+            "about": "#1 Stream Platform",
+            "website" : "http://netflix.com"
+        }
+
+        response = self.client.post(reverse('streamlist-list'), data)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
